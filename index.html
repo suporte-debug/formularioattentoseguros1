@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Atualização de Cadastro – Segurado</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+body {
+font-family: Arial, sans-serif;
+background: #f2f6fb;
+padding: 20px;
+}
+.container {
+max-width: 500px;
+margin: auto;
+background: #ffffff;
+padding: 25px;
+border-radius: 10px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+h2 {
+text-align: center;
+color: #0a3d62;
+}
+label {
+display: block;
+margin-top: 15px;
+font-weight: bold;
+}
+input, select, textarea, button {
+width: 100%;
+padding: 10px;
+margin-top: 5px;
+border-radius: 6px;
+border: 1px solid #ccc;
+font-size: 14px;
+}
+.radio-group {
+display: flex;
+gap: 20px;
+margin-top: 10px;
+}
+button {
+margin-top: 25px;
+background: #0a3d62;
+color: white;
+border: none;
+cursor: pointer;
+font-size: 16px;
+}
+button:hover {
+background: #075184;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>Atualização de Cadastro</h2>
+<form onsubmit="enviarWhatsApp(event)">
+<label>CEP</label>
+<input type="text" id="cep" placeholder="00000-000" required />
+
+<label>Número da CNH</label>
+<input type="text" id="cnh" required />
+
+<label>Profissão</label>
+<input type="text" id="profissao" required />
+
+<label>Estado Civil</label>
+<select id="estadoCivil" required>
+<option value="">Selecione</option>
+<option>Solteiro(a)</option>
+
