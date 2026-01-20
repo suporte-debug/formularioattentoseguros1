@@ -67,10 +67,10 @@ button:hover {
     <input type="text" id="cep" placeholder="00000-000" required />
 
     <label>Número da CNH</label>
-    <input type="text" id="venc" required />
+    <input type="text" id="cnh" required />
 
     <label>Vencimento da CNH</label>
-    <input type="text" id="cnh" required />
+    <input type="text" id="venc" required />
 
     <label>Profissão</label>
     <input type="text" id="profissao" required />
@@ -110,10 +110,14 @@ function enviarEmail(event) {
   event.preventDefault();
 
   emailjs.send("service_j2qb7qh", "template_nopcfu1", { // Substitua pelos IDs corretos
+    nome: document.getElementById("nome").value,
     cep: document.getElementById("cep").value,
     cnh: document.getElementById("cnh").value,
+    venc: document.getElementById("venc").value,
     profissao: document.getElementById("profissao").value,
-    estadoCivil: document.getElementById("estadoCivil").value
+    estadoCivil: document.getElementById("estadoCivil").value,
+    filhos: document.getElementById("filhos").value,
+    email: document.getElementById("email").value,
   }).then(() => {
     alert("Dados enviados com sucesso!");
     // Opcional: limpar formulário
@@ -128,3 +132,4 @@ function enviarEmail(event) {
 </body>
 
 </html>
+
