@@ -82,7 +82,7 @@ button:hover {
   placeholder="00000-000"
   maxlength="9"
   inputmode="numeric"
-  pattern="[0-9]*"
+   pattern="\d{5}-\d{3}"
   required
 />
 
@@ -93,7 +93,7 @@ button:hover {
   placeholder="00000000000"
   maxlength="11"
   inputmode="numeric"
-  pattern="[0-9]*"
+  pattern="[0-11]*"
   required
 />
 
@@ -104,7 +104,7 @@ button:hover {
   placeholder="00/00/0000"
   maxlength="10"
   inputmode="numeric"
-  pattern="[0-9/]*"
+  pattern="[0-8/]*"
   required
 />
 
@@ -193,6 +193,7 @@ document.getElementById("venc").addEventListener("input", function (e) {
 </body>
 
 </html>
+
 
 
 
