@@ -4,134 +4,295 @@
 <meta charset="UTF-8" />
 <title>Atualização de Cadastro – Segurado</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
+:root {
+  --bg: #eef3f7;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #cbd5e1;
+  --primary: #1565c0;
+  --primary-hover: #0d3f7a;
+  --success: #2ecc71;
+  --error: #e74c3c;
+  --shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+* { box-sizing: border-box; }
+
 body {
-  font-family: Arial, sans-serif;
-  background: #f2f6fb;
+  font-family: "Inter", system-ui, sans-serif;
+  background: var(--bg);
   padding: 20px;
+  color: var(--text);
 }
+
 .container {
-  max-width: 500px;
+  max-width: 560px;
   margin: auto;
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background: var(--card);
+  padding: 34px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.6s ease both;
 }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logo {
+  display: block;
+  margin: 8px auto 18px auto;
+  max-width: 170px;
+}
+
 h2 {
   text-align: center;
-  color: #0a3d62;
+  margin-bottom: 6px;
+  font-weight: 600;
 }
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 26px;
+}
+
 label {
   display: block;
-  margin-top: 15px;
-  font-weight: bold;
-}
-input, select, textarea, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  margin-top: 18px;
+  font-weight: 600;
   font-size: 14px;
 }
-.radio-group {
-  display: flex;
-  gap: 20px;
-  margin-top: 10px;
+
+.required { color: var(--error); }
+
+input, select, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background: white;
+  color: var(--text);
+  transition: border 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
+
+input::placeholder { color: var(--muted); }
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(21,101,192,0.2);
+  transform: translateY(-1px);
+}
+
+input.valid { border-color: var(--success); }
+input.invalid { border-color: var(--error); }
+
+.error-msg {
+  font-size: 12px;
+  color: var(--error);
+  margin-top: 4px;
+  display: none;
+  animation: shake 0.25s ease;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
 button {
-  margin-top: 25px;
-  background: #0a3d62;
+  margin-top: 28px;
+  background: var(--primary);
   color: white;
   border: none;
   cursor: pointer;
   font-size: 16px;
-}
-button:hover {
-  background: #075184;
-}
-  .logo {
-  display: block;
-  margin: 15px auto 25px auto;
-  max-width: 180px;
+  font-weight: 600;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+button.loading {
+  background: var(--muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+button.loading::after { content: " ⏳"; }
+
+.privacy {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.success-box {
+  display: none;
+  text-align: center;
+  padding: 34px 28px;
+  border-radius: 18px;
+  background: rgba(46,204,113,0.12);
+  border: 1px solid var(--success);
+  color: var(--success);
+  font-weight: 600;
+  animation: fadeUp 0.5s ease both;
+}
+
+.success-box h3 {
+  margin-bottom: 14px;
+  font-size: 20px;
+}
+
+.success-box p {
+  margin-top: 12px;
+  font-size: 15px;
+}
+
+/* Efeito visual ao preencher endereço */
+input.autofill {
+  animation: glow 0.6s ease;
+}
+
+@keyframes glow {
+  0% { background: #ecfdf5; }
+  100% { background: white; }
+}
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="card">
   <img src="logoattento.png" alt="Logo Attento" class="logo">
+
   <h2>Atualização de Cadastro</h2>
- 
+  <p class="subtitle" id="subtitleObrigatorio">Campos marcados com <span class="required">*</span> são obrigatórios</p>
 
-  <form onsubmit="enviarEmail(event)">
+  <div class="success-box" id="successBox">
+    <h3>Cadastro atualizado</h3>
+    <p>Dados enviados com sucesso! Verifique seu e-mail para confirmação.</p>
+  </div>
 
-    <label>Nome</label>
-    <input 
-      type="text" 
-      id="nome" 
-      required 
-      />
+  <form id="formCadastro" onsubmit="enviarEmail(event)">
 
-    <label>CEP</label>
-<input
-  type="text"
-  id="cep"
-  placeholder="00000-000"
-  maxlength="9"
-  inputmode="numeric"
-  required
-/>
+    <!-- Nome -->
+    <label for="nome">Nome completo <span class="required">*</span></label>
+    <input type="text" id="nome" placeholder="Digite seu nome completo" autocomplete="name" required>
+    <div class="error-msg" id="erro-nome">Informe seu nome completo</div>
 
-    <label>Número da CNH</label>
-<input
-  type="text"
-  id="cnh"
-  placeholder="00000000000"
-  maxlength="11"
-  inputmode="numeric"
-  required
-/>
+    <!-- CEP -->
+    <label for="cep">CEP <span class="required">*</span></label>
+    <input type="text" id="cep" placeholder="00000-000" maxlength="9" inputmode="numeric" autocomplete="postal-code" required>
+    <div class="error-msg" id="erro-cep">CEP inválido</div>
 
-  <label>Vencimento da CNH</label>
-<input
-  type="text"
-  id="venc"
-  placeholder="00/00/0000"
-  maxlength="10"
-  inputmode="numeric"
-  required
-/>
+    <!-- Endereço -->
+    <label for="logradouro">Logradouro <span class="required">*</span></label>
+    <input type="text" id="logradouro" placeholder="Rua, Avenida, Travessa..." required>
 
-    <label>Profissão</label>
-    <input
-      type="text"
-      id="profissao" 
-      required 
-      />
+    <div class="grid-2">
+      <div>
+        <label for="numero">Número <span class="required">*</span></label>
+        <input type="text" id="numero" placeholder="Ex: 123" required>
+      </div>
+      <div>
+        <label for="complemento">Complemento</label>
+        <input type="text" id="complemento" placeholder="Apto, bloco, casa...">
+      </div>
+    </div>
 
-    <label>Estado Civil</label>
+    <label for="bairro">Bairro <span class="required">*</span></label>
+    <input type="text" id="bairro" required>
+
+    <div class="grid-2">
+      <div>
+        <label for="cidade">Cidade <span class="required">*</span></label>
+        <input type="text" id="cidade" required>
+      </div>
+      <div>
+        <label for="uf">UF <span class="required">*</span></label>
+        <input type="text" id="uf" maxlength="2" required>
+      </div>
+    </div>
+
+    <!-- CNH -->
+    <label for="cnh">Número da CNH <span class="required">*</span></label>
+    <input type="text" id="cnh" placeholder="Somente números (11 dígitos)" maxlength="11" inputmode="numeric" required>
+    <div class="error-msg" id="erro-cnh">CNH deve conter 11 números</div>
+
+    <!-- Vencimento -->
+    <label for="venc">Vencimento da CNH <span class="required">*</span></label>
+    <input type="text" id="venc" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" required>
+    <div class="error-msg" id="erro-venc">Data inválida</div>
+
+    <!-- Profissão -->
+    <label for="profissao">Profissão <span class="required">*</span></label>
+    <input type="text" id="profissao" placeholder="Ex: Motorista, Advogado, Comerciante" autocomplete="organization-title" required>
+    <div class="error-msg" id="erro-profissao">Informe sua profissão</div>
+
+    <!-- Estado civil -->
+    <label for="estadoCivil">Estado civil <span class="required">*</span></label>
     <select id="estadoCivil" required>
-      <option value="">Selecione</option>
+      <option value="">-- Selecione --</option>
       <option>Solteiro(a)</option>
       <option>Casado(a)</option>
       <option>Divorciado(a)</option>
+      <option>Viúvo(a)</option>
     </select>
+    <div class="error-msg" id="erro-estadoCivil">Selecione uma opção</div>
 
-    <label>Tem filhos entre 18 e 26 anos?</label>
+    <!-- Filhos -->
+    <label for="filhos">Tem filhos entre 18 e 26 anos? <span class="required">*</span></label>
     <select id="filhos" required>
-      <option value="">Selecione</option>
+      <option value="">-- Selecione --</option>
       <option>Sim</option>
       <option>Não</option>
     </select>
+    <div class="error-msg" id="erro-filhos">Selecione uma opção</div>
 
-    <label>Endereço de email atualizado</label>
-    <input type="text" id="email" required />
+    <!-- Email -->
+    <label for="email">E-mail atualizado <span class="required">*</span></label>
+    <input type="email" id="email" placeholder="exemplo@email.com" autocomplete="email" required>
+    <div class="error-msg" id="erro-email">E-mail inválido</div>
 
-    <!-- Botão de enviar -->
-    <button type="submit">Enviar</button>
+    <button type="submit" id="btnEnviar">Enviar dados</button>
+
+    <p class="privacy">
+      🔒 Seus dados são enviados com segurança e utilizados apenas para atualização cadastral.
+    </p>
 
   </form>
 </div>
@@ -140,63 +301,215 @@ button:hover {
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
 (function(){
-  emailjs.init("BD0iHht4bO4xcBqJH"); // Substitua pela sua Public Key
+  emailjs.init("BD0iHht4bO4xcBqJH");
 })();
-
-function enviarEmail(event) {
-  event.preventDefault();
-
-  emailjs.send("service_j2qb7qh", "template_nopcfu1", { // Substitua pelos IDs corretos
-    nome: document.getElementById("nome").value,
-    cep: document.getElementById("cep").value,
-    cnh: document.getElementById("cnh").value,
-    venc: document.getElementById("venc").value,
-    profissao: document.getElementById("profissao").value,
-    estadoCivil: document.getElementById("estadoCivil").value,
-    filhos: document.getElementById("filhos").value,
-    email: document.getElementById("email").value,
-  }).then(() => {
-    alert("Dados enviados com sucesso!");
-    // Opcional: limpar formulário
-    document.querySelector("form").reset();
-  }, (error) => {
-    alert("Erro ao enviar. Confira console.");
-    console.error(error);
-  });
-}
 </script>
 
-  <script>
-// CEP 00000-000
-document.getElementById("cep").addEventListener("input", function (e) {
+<script>
+// =====================
+// ELEMENTOS
+// =====================
+const cepInput = document.getElementById("cep");
+const logradouroInput = document.getElementById("logradouro");
+const bairroInput = document.getElementById("bairro");
+const cidadeInput = document.getElementById("cidade");
+const ufInput = document.getElementById("uf");
+const numeroInput = document.getElementById("numero");
+const complementoInput = document.getElementById("complemento");
+
+const cnhInput = document.getElementById("cnh");
+const vencInput = document.getElementById("venc");
+const btnEnviar = document.getElementById("btnEnviar");
+const successBox = document.getElementById("successBox");
+const subtitleObrigatorio = document.getElementById("subtitleObrigatorio");
+
+// =====================
+// MÁSCARAS
+// =====================
+cepInput.addEventListener("input", function (e) {
   let v = e.target.value.replace(/\D/g, "");
   v = v.replace(/^(\d{5})(\d)/, "$1-$2");
   e.target.value = v.substring(0, 9);
 });
 
-// CNH - somente números (11)
-document.getElementById("cnh").addEventListener("input", function (e) {
+cnhInput.addEventListener("input", function (e) {
   e.target.value = e.target.value.replace(/\D/g, "").substring(0, 11);
 });
 
-// Data 00/00/0000
-document.getElementById("venc").addEventListener("input", function (e) {
+vencInput.addEventListener("input", function (e) {
   let v = e.target.value.replace(/\D/g, "");
   if (v.length > 2) v = v.replace(/^(\d{2})(\d)/, "$1/$2");
   if (v.length > 4) v = v.replace(/^(\d{2})\/(\d{2})(\d)/, "$1/$2/$3");
   e.target.value = v.substring(0, 10);
 });
+
+// =====================
+// BUSCA AUTOMÁTICA DE CEP (ViaCEP)
+// =====================
+cepInput.addEventListener("blur", async () => {
+  const cep = cepInput.value.replace(/\D/g, "");
+  if (cep.length !== 8) {
+    marcarInvalido(cepInput, "erro-cep");
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = await res.json();
+
+    if (data.erro) {
+      marcarInvalido(cepInput, "erro-cep");
+      return;
+    }
+
+    logradouroInput.value = data.logradouro || "";
+    bairroInput.value = data.bairro || "";
+    cidadeInput.value = data.localidade || "";
+    ufInput.value = data.uf || "";
+
+    [logradouroInput, bairroInput, cidadeInput, ufInput].forEach(el => {
+      el.classList.add("autofill");
+      setTimeout(() => el.classList.remove("autofill"), 600);
+      marcarValido(el);
+    });
+
+    marcarValido(cepInput, "erro-cep");
+    numeroInput.focus();
+
+  } catch (err) {
+    console.error("Erro ao buscar CEP:", err);
+    marcarInvalido(cepInput, "erro-cep");
+  }
+});
+
+// =====================
+// VALIDAÇÃO VISUAL
+// =====================
+function marcarValido(input, erroId) {
+  input.classList.remove("invalid");
+  input.classList.add("valid");
+  if (erroId) document.getElementById(erroId).style.display = "none";
+}
+
+function marcarInvalido(input, erroId) {
+  input.classList.remove("valid");
+  input.classList.add("invalid");
+  if (erroId) document.getElementById(erroId).style.display = "block";
+}
+
+// Nome
+nome.addEventListener("blur", () => {
+  nome.value.trim().length >= 3 ? marcarValido(nome, "erro-nome") : marcarInvalido(nome, "erro-nome");
+});
+
+// Número
+numeroInput.addEventListener("blur", () => {
+  numeroInput.value.trim() ? marcarValido(numeroInput) : marcarInvalido(numeroInput);
+});
+
+// Bairro
+bairroInput.addEventListener("blur", () => {
+  bairroInput.value.trim() ? marcarValido(bairroInput) : marcarInvalido(bairroInput);
+});
+
+// Cidade
+cidadeInput.addEventListener("blur", () => {
+  cidadeInput.value.trim() ? marcarValido(cidadeInput) : marcarInvalido(cidadeInput);
+});
+
+// UF
+ufInput.addEventListener("blur", () => {
+  ufInput.value.trim().length === 2 ? marcarValido(ufInput) : marcarInvalido(ufInput);
+});
+
+// CNH
+function validarCNH() {
+  /^\d{11}$/.test(cnhInput.value) ? marcarValido(cnhInput, "erro-cnh") : marcarInvalido(cnhInput, "erro-cnh");
+}
+cnhInput.addEventListener("blur", validarCNH);
+
+// Data
+function validarData() {
+  /^\d{2}\/\d{2}\/\d{4}$/.test(vencInput.value) ? marcarValido(vencInput, "erro-venc") : marcarInvalido(vencInput, "erro-venc");
+}
+vencInput.addEventListener("blur", validarData);
+
+// Profissão
+profissao.addEventListener("blur", () => {
+  profissao.value.trim().length >= 2 ? marcarValido(profissao, "erro-profissao") : marcarInvalido(profissao, "erro-profissao");
+});
+
+// Estado civil
+estadoCivil.addEventListener("change", () => {
+  estadoCivil.value ? marcarValido(estadoCivil, "erro-estadoCivil") : marcarInvalido(estadoCivil, "erro-estadoCivil");
+});
+
+// Filhos
+filhos.addEventListener("change", () => {
+  filhos.value ? marcarValido(filhos, "erro-filhos") : marcarInvalido(filhos, "erro-filhos");
+});
+
+// Email
+email.addEventListener("blur", () => {
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value) ? marcarValido(email, "erro-email") : marcarInvalido(email, "erro-email");
+});
+
+// =====================
+// ENVIO + CONFIRMAÇÃO
+// =====================
+function enviarEmail(event) {
+  event.preventDefault();
+
+  validarCNH();
+  validarData();
+
+  const invalidos = document.querySelectorAll(".invalid");
+  if (invalidos.length > 0) {
+    alert("⚠️ Por favor, corrija os campos destacados.");
+    return;
+  }
+
+  btnEnviar.classList.add("loading");
+  btnEnviar.textContent = "Enviando...";
+  btnEnviar.disabled = true;
+
+  const dados = {
+    nome: nome.value,
+    cep: cepInput.value,
+    logradouro: logradouroInput.value,
+    numero: numeroInput.value,
+    complemento: complementoInput.value,
+    bairro: bairroInput.value,
+    cidade: cidadeInput.value,
+    uf: ufInput.value,
+    cnh: cnhInput.value,
+    venc: vencInput.value,
+    profissao: profissao.value,
+    estadoCivil: estadoCivil.value,
+    filhos: filhos.value,
+    email: email.value,
+  };
+
+  emailjs.send("service_j2qb7qh", "template_nopcfu1", dados).then(() => {
+
+    emailjs.send("service_j2qb7qh", "template_ai3rymt", {
+      nome: nome.value,
+      email: email.value,
+    });
+
+    document.getElementById("formCadastro").style.display = "none";
+    subtitleObrigatorio.style.display = "none";
+    successBox.style.display = "block";
+
+  }, (error) => {
+    alert("❌ Erro ao enviar. Tente novamente.");
+    console.error(error);
+    btnEnviar.classList.remove("loading");
+    btnEnviar.textContent = "Enviar dados";
+    btnEnviar.disabled = false;
+  });
+}
 </script>
+
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
